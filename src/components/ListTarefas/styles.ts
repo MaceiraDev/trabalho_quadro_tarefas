@@ -12,12 +12,14 @@ export const Container = styled.div`
         width: 30rem;
         border-radius: 8px;
         margin: 5px;
-        border: 2px solid #d7d7d7;
+        border: 2px solid #000;
         background-color: #ebecf0;
+        padding-left: 0;
 
         h3 {
             text-align: center;
-            color: #172b4d;
+            color: #000;
+            font-weight: 700;
         }
 
         li {
@@ -27,8 +29,8 @@ export const Container = styled.div`
             border: 0;
             border-radius: 8px;
             margin: 10px;
+            border: 2px solid #000;
             list-style: none;
-
             display: flex;
             justify-content: space-between;
 

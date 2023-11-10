@@ -1,5 +1,6 @@
 import axios from "axios";
 import {
+    Key,
     ReactNode,
     createContext,
     useState,
@@ -7,23 +8,21 @@ import {
 } from "react";
 
 interface Tarefas {
+    id?: Key;
     titulo: string;
     descricao: string;
+    quadro: string;
 }
 interface TarefasWithID {
     id: string;
     titulo: string;
     descricao: string;
+    quadro: string;
 }
-
-// exemplo de type para omitir atributo
-// type TarefaExample = Omit<TarefasWithID, 'id' | `titulo`>
-
 interface DataEditarTarefa {
     editar: boolean;
     tarefa: TarefasWithID | null;
 }
-
 interface PropsTarefaContext {
     tarefas: Array<TarefasWithID>;
     createTarefa: (tarefas: Tarefas) => Promise<void>;
@@ -31,6 +30,7 @@ interface PropsTarefaContext {
     funEditarTarefa: (tarefas: DataEditarTarefa) => void;
     funSetTarefaDefault: () => void;
     editarTarefa: DataEditarTarefa;
+    deleteTarefa: (id?: Key) => Promise<void>;
 }
 export const TarefaContext = createContext(
     {} as PropsTarefaContext
@@ -44,7 +44,7 @@ export function TarefasProvider({ children }: PropsTarefaProvider) {
 
     const [tarefas, setTarefas] = useState([])
 
-    const [editarTarefa, setEditarTarefas] = useState<DataEditarTarefa>({editar: false, tarefa: null})
+    const [editarTarefa, setEditarTarefas] = useState<DataEditarTarefa>({ editar: false, tarefa: null })
 
     useEffect(() => {
         axios.get('/api/tarefas')
@@ -75,11 +75,16 @@ export function TarefasProvider({ children }: PropsTarefaProvider) {
                 setTarefas(res.data.tarefas)
             })
 
+    }
 
+    async function deleteTarefa(id?: Key) {
+        await axios.delete(`/api/tarefas/${id}`);
+        const resposta = await axios.get("/api/tarefas");
+        setTarefas(resposta.data.tarefas);
     }
 
     function funSetTarefaDefault() {
-        setEditarTarefas({editar: false, tarefa: null})
+        setEditarTarefas({ editar: false, tarefa: null })
     }
 
     function funEditarTarefa(data: DataEditarTarefa) {
@@ -94,6 +99,7 @@ export function TarefasProvider({ children }: PropsTarefaProvider) {
             editarTarefa,
             funEditarTarefa,
             funSetTarefaDefault,
+            deleteTarefa,
             updateTarefa
         }}>
             {children}

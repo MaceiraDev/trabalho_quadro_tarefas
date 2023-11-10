@@ -19,15 +19,20 @@ createServer({
 
         this.put('/api/tarefas', (schema, request) => {
             const data = JSON.parse(request.requestBody)
-
             return schema.db.tarefas.update(data.id, data)
         })
+
+        this.delete("/api/tarefas/:id", async (schema, req) => {
+            const { id } = req.params;
+            const tarefa = await schema.find("tarefas", id);
+            return tarefa?.destroy();
+        });
     }
 })
 
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>,
 )

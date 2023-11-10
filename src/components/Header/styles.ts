@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const Container = styled.header`
-    background-color: var(--blue);
+    background-color: var(--darkpurple);
     padding: 1rem 1rem 1rem;
     display: flex;
     align-items: center;
@@ -14,18 +14,14 @@ export const Container = styled.header`
     button {
         font-size: 1rem;
         color: #fff;
-        background-color: var(--blue-light);
+        background-color: var(--blue-purple);
         border: 0;
-        padding: 0 2rem;
-
-        border-radius: 8px;
-        height: 3rem;
-
-        transition: 1s;
-
+        padding: 10px;
+        border-radius: 4px;
+        transition: 0.5s;
         &:hover {
-            /* filter: brightness(0.9); */
-            background-color: #f00;
+            background-color: orange;
+            color: #000;
         }
 
     }
